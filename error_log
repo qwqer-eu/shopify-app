@@ -1,0 +1,2 @@
+[08-Jun-2023 08:21:12 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\ShippingController::create_order() in /home2/chainpul/public_html/shipping-carrier.chainpulse.tech/app/Http/Controllers/ShippingController.php on line 295
+[08-Jun-2023 08:21:12 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\ShippingController::create_order() in /home2/chainpul/public_html/shipping-carrier.chainpulse.tech/app/Http/Controllers/ShippingController.php on line 295
