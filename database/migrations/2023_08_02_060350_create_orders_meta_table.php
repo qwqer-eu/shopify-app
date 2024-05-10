@@ -21,6 +21,9 @@ class CreateOrdersMetaTable extends Migration
             $table->string('customer_phone');
             $table->string('shipping_address');
             $table->string('billing_address');
+            $table->string('status', 20)
+                ->nullable()
+                ->default(0);
             $table->timestamps();
         });
     }

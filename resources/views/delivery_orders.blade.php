@@ -3,7 +3,7 @@
             <tr>
                 <th class="text-center">ID</th>
                 <th class="text-center">Sr.No.</th>
-                <th class="text-center">Shop ID</th>
+                <th class="text-center">Shop Order ID</th>
                 <th class="text-center">Order ID</th>
                 <th class="text-center">Client Distance</th>
                 <th class="text-center">Distance</th>

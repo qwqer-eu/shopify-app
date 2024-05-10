@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'qwqer_api' => 'https://qwqer.hostcream.eu/api/v1/',
+
     /*
     |--------------------------------------------------------------------------
     | Debug Mode
@@ -351,7 +354,7 @@ return [
         //     'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', 'https://shipping-express.chainpulse.tech/webhook/fulfillments-create')
         // ]
 
-    
+
 
         /*
             [
@@ -363,6 +366,11 @@ return [
             ]
             ...
         */
+
+		[
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC','APP_UNINSTALLED'),
+            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://shpf.qwqer.lv/webhook/app-uninstalled')
+        ]
     ],
 
     /*
