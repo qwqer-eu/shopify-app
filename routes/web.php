@@ -21,7 +21,8 @@ Route::middleware(['verify.shopify'])->group(function () {
     Route::get('/', [ViewController::class, 'welcome'])
         ->name('home');
 
-    Route::post('add-rates', [DeliveryController::class, 'add_shipping_rates']);
+    Route::post('add-rates', [DeliveryController::class, 'add_shipping_rates'])
+        ->name('add-rates');
 
     Route::post('create-location', [OrderController::class, 'location_create']);
 

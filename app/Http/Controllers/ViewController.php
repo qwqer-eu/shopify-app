@@ -44,7 +44,7 @@ class ViewController extends Controller
             $post_data = [
                 "carrier_service" => [
                     "name" => "QWQER Express",
-                    "callback_url" => "https://shpf.qwqer.lv/add-rates",
+                    "callback_url" => route('add-rates'),
                     "service_discovery" => "true"
                 ],
             ];

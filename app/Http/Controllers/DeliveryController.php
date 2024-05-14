@@ -116,23 +116,23 @@ class DeliveryController extends Controller
 //        file_put_contents($filename . '-debug', print_r($rates, true));
 
         // build the array of line items using the prior values
-        $output = [
-            'rates' => [
-                [
-                    'service_name' => 'QWQER Express',
-                    'service_code' => 'QWQER',
-                    'total_price' => $price,
-                    'currency' => 'INR',
-                    'min_delivery_date' => '',
-                    'max_delivery_date' => ''
-                ],
-            ]
+        $carriers = [
+            [
+                'service_name' => 'QWQER Same-day (18:00 - 22:00)',
+                'service_code' => 'QWQER',
+                'total_price' => $price,
+                'currency' => 'EUR',
+                'description' => '',
+                'phone_required' => true,
+            ],
         ];
 
         // log it so we can debug the response
 //        file_put_contents($filename . '-output', $json_output);
 
         // send it back to shopify
-        return json_encode($output);
+        return response()->json([
+            'rates' => $carriers,
+        ]);
     }
 }
