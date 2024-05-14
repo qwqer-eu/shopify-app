@@ -174,6 +174,9 @@ $shop =auth()->user();
                             $("#all_orders").prop('checked', false);
                             $('input:checkbox[name="order_list"]').prop('checked', false);
                             toastr.info('Orders updated successfully!');
+                        },
+                        error: function (e) {
+                            toastr.error('Fulfillment failed! ' + e.responseJSON[0].message);
                         }
                     });
                 });

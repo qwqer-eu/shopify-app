@@ -124,9 +124,23 @@ class OrderController extends Controller
                 'order_id' => $shopify_order['id'],
                 'shipping_address' => "{$shopify_order['shipping_address']['address1']} {$shopify_order['shipping_address']['city']}",
                 'customer_name' => $shopify_order['shipping_address']['name'],
-                'customer_phone' => $shopify_order['shipping_address']['phone'],
+                'customer_phone' => $shopify_order['shipping_address']['phone'] ?: $shopify_order['customer']['phone'],
                 'billing_address' => "{$shopify_order['billing_address']['address1']} {$shopify_order['billing_address']['city']}",
             ];
+
+            foreach ($order as $key => $order_data) {
+                if (!isset($order_data) || $order_data == '') {
+                    return response()->json([[
+                        'success' => false,
+                        'message' => sprintf(
+                            "Order %s$key not found!",
+                            isset($shopify_order['order_number'])
+                                ? "#{$shopify_order['order_number']} "
+                                : (($shopify_order['id'] ?? false) ? "{$shopify_order['id']} " : '')
+                        )
+                    ]], 422);
+                }
+            }
 
             $qwqer_exist = false;
             foreach ($shopify_order['shipping_lines'] as $shipping_line) {
