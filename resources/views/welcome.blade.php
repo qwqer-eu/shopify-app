@@ -1,24 +1,21 @@
 @extends('shopify-app::layouts.default')
 
 <?php
-$shop =auth()->user();
-  $user_id = $shop->id;
+    $shop = auth()->user();
+    $user_id = $shop->id;
 ?>
 
 @section('content')
-    <!-- You are: (shop domain name) -->
-    <!--<p>You are: {{ $shopDomain ?? Auth::user()->name }}</p>-->
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" type="text/css" href="{{ url('/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}" />
 
     <div class="datatable">
-        <div class="shop-id" style="display:none">{{ $user_id}}</div>
+        <div class="shop-id" style="display: none;">{{ $user_id }}</div>
 
         <div class="container">
             <div id="exTab1">
