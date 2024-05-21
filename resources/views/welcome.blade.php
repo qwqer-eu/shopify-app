@@ -1,10 +1,5 @@
 @extends('shopify-app::layouts.default')
 
-<?php
-$shop = auth()->user();
-$user_id = $shop->id;
-?>
-
 @section('content')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
@@ -211,10 +206,10 @@ $user_id = $shop->id;
                                     toastr.info('Order successfully processed!');
                                 },
                                 error: function (e) {
-                                    if (e.responseJSON[0].message === undefined) {
+                                    if (e.responseJSON.message === undefined) {
                                         toastr.error('Failed to process order!');
                                     } else {
-                                        toastr.error('Failed to process order! ' + e.responseJSON[0].message);
+                                        toastr.error('Failed to process order! ' + e.responseJSON.message);
                                     }
                                 }
                             });
@@ -239,6 +234,9 @@ $user_id = $shop->id;
                     url: "{{ url('create-location') }}",
                     dataType: "json",
                     success: function (response) {
+                    },
+                    error: function (e) {
+                        toastr.error('Failed to save shop locations! ' + e.responseJSON.message);
                     }
                 });
 
@@ -248,6 +246,9 @@ $user_id = $shop->id;
                     dataType: "json",
                     success: function () {
                         orderTable.DataTable().ajax.reload();
+                    },
+                    error: function (e) {
+                        toastr.error('Failed to get orders! ' + e.responseJSON.message);
                     }
                 });
 
@@ -263,7 +264,7 @@ $user_id = $shop->id;
                             toastr.info('Orders updated successfully!');
                         },
                         error: function (e) {
-                            toastr.error('Failed to update orders! ' + e.responseJSON[0].message);
+                            toastr.error('Failed to update orders! ' + e.responseJSON.message);
                         }
                     });
                 });
@@ -308,10 +309,10 @@ $user_id = $shop->id;
                         successfulOrderCount = 0;
                         failedOrderCount = 0;
                     }).catch(function (e) {
-                        if (e.responseJSON[0].message === undefined) {
+                        if (e.responseJSON.message === undefined) {
                             toastr.error('Failed to process order!');
                         } else {
-                            toastr.error('Failed to process order! ' + e.responseJSON[0].message);
+                            toastr.error('Failed to process order! ' + e.responseJSON.message);
                         }
                         ajaxRequests = [];
                         successfulOrderCount = 0;
@@ -334,6 +335,9 @@ $user_id = $shop->id;
                         carrier_service_shipping_rates.setValue(response.data.carrier_service_shipping_rates);
                         @endif
                         shipping_rates.setValue(response.data.shipping_rates);
+                    },
+                    error: function (e) {
+                        toastr.error('Failed to get settings! ' + e.responseJSON.message);
                     }
                 });
 
@@ -364,6 +368,9 @@ $user_id = $shop->id;
                         success: function () {
                             swal("Success", "Settings updated successfully.");
                             orderTable.DataTable().ajax.reload();
+                        },
+                        error: function (e) {
+                            toastr.error('Failed to update settings! ' + e.responseJSON.message);
                         }
                     });
                 });

@@ -167,9 +167,32 @@
                                             @endforeach
                                         </select>
                                         <div class="Polaris-Labelled__HelpText">
-                                            <span class="Polaris-Text--root Polaris-Text--bodyMd Polaris-Text--break Polaris-Text--subdued">
-                                                Only required if Carrier Service is not available
-                                            </span>
+                                            <div class="Polaris-InlineStack"
+                                                 style="--pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-150); --pc-inline-stack-flex-direction-xs: row;">
+                                                <span class="Polaris-Banner__text--info">
+                                                    <span class="Polaris-Icon">
+                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                            <path d="M10 14a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-.75.75Z"></path>
+                                                            <path d="M9 7a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"></path>
+                                                            <path fill-rule="evenodd" d="M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Zm-1.5 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z"></path>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <div class="Polaris-Box" style="--pc-box-width: 100%;">
+                                                    <div class="Polaris-BlockStack"
+                                                         style="--pc-block-stack-order: column; --pc-block-stack-gap-xs: var(--p-space-200);">
+                                                        <div class="Polaris-BlockStack"
+                                                             style="--pc-block-stack-order: column; --pc-block-stack-gap-xs: var(--p-space-050);">
+                                                            <div>
+                                                                <span class="Polaris-Text--root Polaris-Text--bodyMd Polaris-Text--break Polaris-Text--subdued">
+                                                                    Only required if Carrier Service is not available
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

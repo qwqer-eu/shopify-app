@@ -22,10 +22,10 @@ class OrderController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 
@@ -88,10 +88,10 @@ class OrderController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 
@@ -100,10 +100,10 @@ class OrderController extends Controller
             ->first();
 
         if (!isset($settings) || !$settings instanceof Settings) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Settings not found!'
-            ]], 422);
+            ], 422);
         }
 
         $shipping_rates = is_array($settings->shipping_rates)
@@ -166,7 +166,7 @@ class OrderController extends Controller
 
             foreach ($order as $key => $order_data) {
                 if (!isset($order_data) || $order_data == '') {
-                    return response()->json([[
+                    return response()->json([
                         'success' => false,
                         'message' => sprintf(
                             "Order %s$key not found!",
@@ -174,7 +174,7 @@ class OrderController extends Controller
                                 ? "#{$shopify_order['order_number']} "
                                 : (($shopify_order['id'] ?? false) ? "{$shopify_order['id']} " : '')
                         )
-                    ]], 422);
+                    ], 422);
                 }
             }
 
@@ -200,10 +200,10 @@ class OrderController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 
@@ -248,10 +248,10 @@ class OrderController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
         $order_id = $request->input('order_id');
@@ -261,10 +261,10 @@ class OrderController extends Controller
             ->first();
 
         if (!$settings instanceof Settings) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Settings not found!'
-            ]], 422);
+            ], 422);
         }
 
         $api_key = $settings->api_key;
@@ -281,10 +281,10 @@ class OrderController extends Controller
             ->first();
 
         if (!$location instanceof Location) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop location not found!'
-            ]], 422);
+            ], 422);
         }
 
         $origin_name = $location->name;
@@ -298,10 +298,10 @@ class OrderController extends Controller
             ->first();
 
         if (!$order_meta instanceof Order_Meta) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Order not found!'
-            ]], 422);
+            ], 422);
         }
 
         $destination_address = $order_meta['shipping_address'];
@@ -320,12 +320,12 @@ class OrderController extends Controller
 
         $origin_geocode = json_decode($origin_geocode_response, true);
         if ($origin_geocode_response->status() !== 200) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => ($origin_geocode['message'] ?? '') === 'Unauthenticated.'
                     ? 'Invalid API key!'
                     : $origin_geocode['message'] ?? 'Unknown error!'
-            ]], $origin_geocode_response->status());
+            ], $origin_geocode_response->status());
         }
 
         $origin_latitude = $origin_geocode['data']['coordinates'][0];
@@ -344,12 +344,12 @@ class OrderController extends Controller
 
         $destination_geocode = json_decode($destination_geocode_response, true);
         if ($destination_geocode_response->status() !== 200) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => ($destination_geocode['message'] ?? '') === 'Unauthenticated.'
                     ? 'Invalid API key!'
                     : $destination_geocode['message'] ?? 'Unknown error!'
-            ]], $destination_geocode_response->status());
+            ], $destination_geocode_response->status());
         }
 
         $destination_latitude = $destination_geocode['data']['coordinates'][0];
@@ -385,12 +385,12 @@ class OrderController extends Controller
 
         $delivery_order = json_decode($delivery_order_response, true);
         if ($delivery_order_response->status() !== 200) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => ($delivery_order['message'] ?? '') === 'Unauthenticated.'
                     ? 'Invalid API key!'
                     : $delivery_order['message'] ?? 'Unknown error!'
-            ]], $delivery_order_response->status());
+            ], $delivery_order_response->status());
         }
 
         try {
@@ -443,10 +443,10 @@ class OrderController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 

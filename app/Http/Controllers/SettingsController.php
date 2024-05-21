@@ -23,10 +23,10 @@ class SettingsController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 
@@ -65,10 +65,10 @@ class SettingsController extends Controller
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
-            return response()->json([[
+            return response()->json([
                 'success' => false,
                 'message' => 'Shop not found!'
-            ]], 422);
+            ], 422);
         }
         $shop_id = $shop->id;
 
