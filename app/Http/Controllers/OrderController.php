@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Order_Meta;
 use App\Models\Location;
 use App\Models\Settings;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Osiset\BasicShopifyAPI\ResponseAccess;
 use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
-    public function location_create()
+    public function location_create(): JsonResponse
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
@@ -25,7 +29,7 @@ class OrderController extends Controller
         }
         $shop_id = $shop->id;
 
-        $shopify_locations_response = $shop->api()->rest('GET', '/admin/api/2023-07/locations.json');
+        $shopify_locations_response = $shop->api()->rest('GET', '/admin/api/2024-04/locations.json');
 
         $shopify_locations = [];
         if (isset($shopify_locations_response['body']['locations'])) {
@@ -80,7 +84,7 @@ class OrderController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function get_orders()
+    public function get_orders(): JsonResponse
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
@@ -102,12 +106,20 @@ class OrderController extends Controller
             ]], 422);
         }
 
-        $qwqer_shipping_rates = isset($settings->shipping_rates)
-            ? array_merge($settings->shipping_rates, ['QWQER'])
-            : ['QWQER'];
+        $shipping_rates = is_array($settings->shipping_rates)
+            ? $settings->shipping_rates
+            : [];
+        $carrier_service_shipping_rates = is_array($settings->carrier_service_shipping_rates)
+            ? $settings->carrier_service_shipping_rates
+            : [];
+        if (in_array('QWQER_EVENING', $carrier_service_shipping_rates)) {
+            $carrier_service_shipping_rates[] = 'QWQER';
+        }
+
+        $qwqer_shipping_rates = array_merge($shipping_rates, $carrier_service_shipping_rates);
 
         $orders_data = $shop->api()
-            ->rest('GET', '/admin/api/2023-07/orders.json', ['status' => 'open']);
+            ->rest('GET', '/admin/api/2024-04/orders.json', ['status' => 'open']);
 
         $shopify_orders = [];
         if (isset($orders_data['body']['orders'])) {
@@ -119,13 +131,37 @@ class OrderController extends Controller
         }
 
         foreach ($shopify_orders as $shopify_order) {
+            $qwqer_exist = false;
+            $shipping_service_code = '';
+            foreach ($shopify_order['shipping_lines'] as $shipping_line) {
+                if (in_array($shipping_line['code'], $qwqer_shipping_rates)) {
+                    $qwqer_exist = true;
+                    $shipping_service_code = in_array($shipping_line['code'], $carrier_service_shipping_rates)
+                        ? $shipping_line['code']
+                        : (
+                        in_array($shipping_line['code'], $shipping_rates)
+                            ? 'QWQER_EVENING'
+                            : 'Unknown'
+                        );
+                    break;
+                }
+            }
+
+            if (!$qwqer_exist) {
+                continue;
+            }
+
             $order = [
                 'shop_id' => $shop_id,
                 'order_id' => $shopify_order['id'],
                 'shipping_address' => "{$shopify_order['shipping_address']['address1']} {$shopify_order['shipping_address']['city']}",
                 'customer_name' => $shopify_order['shipping_address']['name'],
                 'customer_phone' => $shopify_order['shipping_address']['phone'] ?: $shopify_order['customer']['phone'],
+                'delivery_type' => $shipping_service_code,
                 'billing_address' => "{$shopify_order['billing_address']['address1']} {$shopify_order['billing_address']['city']}",
+                'date' => !empty($shopify_order['created_at'])
+                    ? Carbon::parse($shopify_order['created_at'])->setTimezone('UTC')
+                    : '',
             ];
 
             foreach ($order as $key => $order_data) {
@@ -142,35 +178,25 @@ class OrderController extends Controller
                 }
             }
 
-            $qwqer_exist = false;
-            foreach ($shopify_order['shipping_lines'] as $shipping_line) {
-                if (in_array($shipping_line['code'], $qwqer_shipping_rates)) {
-                    $qwqer_exist = true;
-                    break;
-                }
-            }
+            $orderMeta = Order_Meta::query()
+                ->where('order_id', $shopify_order['id'])
+                ->where('shop_id', $shop_id)
+                ->first();
 
-            if ($qwqer_exist) {
-                $orderMeta = Order_Meta::query()
-                    ->where('order_id', $shopify_order['id'])
-                    ->where('shop_id', $shop_id)
-                    ->first();
-
-                if ($orderMeta instanceof Order_Meta) {
-                    $orderMeta->fill($order);
-                    if ($orderMeta->isDirty()) {
-                        $orderMeta->save();
-                    }
-                } else {
-                    (new Order_Meta($order))->save();
+            if ($orderMeta instanceof Order_Meta) {
+                $orderMeta->fill($order);
+                if ($orderMeta->isDirty()) {
+                    $orderMeta->save();
                 }
+            } else {
+                (new Order_Meta($order))->save();
             }
         }
 
         return response()->json(['success' => true]);
     }
 
-    public function get_order_details()
+    public function get_order_details(): mixed
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
@@ -181,29 +207,44 @@ class OrderController extends Controller
         }
         $shop_id = $shop->id;
 
+        $settings = Settings::query()
+            ->where('shop_id', $shop_id)
+            ->first();
+
+        $qwqer_api = !isset($settings) || !$settings instanceof Settings
+            ? 'Live'
+            : $settings->api;
+
         $data = Order_Meta::query()
             ->where([
                 'shop_id' => $shop_id,
-                'status' => 0,
             ])
+            ->orderBy('date', 'desc')
             ->get([
                 'id',
                 'order_id',
-                'customer_name',
+                'date',
+                'delivery_type',
                 'shipping_address',
-                'billing_address'
+                'status',
             ]);
 
         return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('checkboxes', function ($row) {
-                return '<input type="checkbox" name="order_list" value="' . $row->order_id . '">';
-            })
-            ->rawColumns(['checkboxes'])
+            ->editColumn('date', fn(Order_Meta $order): string => $order->formatted_date)
+            ->editColumn('delivery_type', fn(Order_Meta $order): string => $order->formatted_delivery_type)
+            ->editColumn('status', fn(Order_Meta $order): string => '<span class="order-status-'. $order->status .'">' . $order->formatted_status . '</span>')
+            ->addColumn('checkboxes', fn(Order_Meta $order): string => '<input type="checkbox" name="order_list" value="' . $order->order_id . '">')
+            ->addColumn('actions', fn(Order_Meta $order): string => '<div class="order-actions">'
+                . $this->getProcessButton($order)
+                . $this->getPrintButton($order, $qwqer_api)
+                . '</div>'
+            )
+            ->rawColumns(['checkboxes', 'status', 'actions'])
             ->make(true);
     }
 
-    public function process_order(Request $request)
+    public function process_order(Request $request): JsonResponse
     {
         $shop = auth()->user();
         if (!$shop instanceof User) {
@@ -229,6 +270,10 @@ class OrderController extends Controller
         $api_key = $settings->api_key;
         $order_category = $settings->order_category;
         $trading_point_id = $settings->trading_point_id;
+
+        $qwqer_api = $settings->api === 'Live'
+            ? config('shopify-app.qwqer_api')
+            : config('shopify-app.qwqer_test_api');
 
         $location = Location::query()
             ->where('shop_id', $shop_id)
@@ -269,7 +314,7 @@ class OrderController extends Controller
             'Authorization' => "Bearer $api_key",
         ])
             ->post(
-                config('shopify-app.qwqer_api') . 'plugins/shopify/places/geocode',
+                $qwqer_api . 'plugins/shopify/places/geocode',
                 ['address' => $origin_location]
             );
 
@@ -293,7 +338,7 @@ class OrderController extends Controller
             'Authorization' => "Bearer $api_key",
         ])
             ->post(
-                config('shopify-app.qwqer_api') . 'plugins/shopify/places/geocode',
+                $qwqer_api . 'plugins/shopify/places/geocode',
                 ['address' => $destination_address]
             );
 
@@ -316,7 +361,7 @@ class OrderController extends Controller
             'Authorization' => "Bearer $api_key",
         ])
             ->post(
-                config('shopify-app.qwqer_api') . 'plugins/shopify/clients/auth/trading-points/' . $trading_point_id . '/delivery-orders',
+                $qwqer_api . 'plugins/shopify/clients/auth/trading-points/' . $trading_point_id . '/delivery-orders',
                 [
                     'type' => 'Regular',
                     'real_type' => 'ScheduledDelivery',
@@ -380,7 +425,7 @@ class OrderController extends Controller
                 'picked_up_at' => $delivery_order['data']['picked_up_at'],
                 'finished_at' => $delivery_order['data']['finished_at'],
             ]))->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to save the order details!'
@@ -417,8 +462,39 @@ class OrderController extends Controller
             ->make(true);
     }
 
-    public function privacy_policy()
+    public function privacy_policy(): View
     {
         return view('privacy-policy');
+    }
+
+    private function getProcessButton(Order_Meta $order_meta): string
+    {
+        if (!empty($order_meta->status)) {
+            return '';
+        }
+
+        return '<button id="' . $order_meta->order_id . '" type="button" class="process-order-button">'
+            . 'Process '
+            . '</button>';
+    }
+
+    private function getPrintButton(Order_Meta $order_meta, $qwqer_api): string
+    {
+        $processedOrder = Order::query()
+            ->where('shop_order_id', '=', $order_meta->order_id)
+            ->first();
+
+        if (!isset($processedOrder)) {
+            return '';
+        }
+
+        $qwqer_print_route = $qwqer_api === 'Test'
+            ? 'https://qwqer.hostcream.eu/storage/delivery-order-covers/'
+            : 'https://qwqer.lv/storage/delivery-order-covers/';
+
+        return '<a class="print-order" title="Print Label" href="'
+            . $qwqer_print_route . $processedOrder->order_id . '.pdf'
+            . '" target="_blank">'
+            . '</a>';
     }
 }

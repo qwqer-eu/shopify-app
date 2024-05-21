@@ -21,9 +21,6 @@ Route::middleware(['verify.shopify'])->group(function () {
     Route::get('/', [ViewController::class, 'welcome'])
         ->name('home');
 
-    Route::post('add-rates', [DeliveryController::class, 'add_shipping_rates'])
-        ->name('add-rates');
-
     Route::post('create-location', [OrderController::class, 'location_create']);
 
     Route::get('get-orders', [OrderController::class, 'get_orders']);
@@ -38,6 +35,9 @@ Route::middleware(['verify.shopify'])->group(function () {
 
     Route::get('api-details', [SettingsController::class, 'get_details']);
 });
+
+Route::post('add-rates', [DeliveryController::class, 'add_shipping_rates'])
+    ->name('add-rates');
 
 Route::get('privacy-policy', [OrderController::class, 'privacy_policy'])
     ->name('privacy-policy');

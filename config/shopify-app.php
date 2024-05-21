@@ -2,7 +2,8 @@
 
 return [
 
-    'qwqer_api' => 'https://qwqer.hostcream.eu/api/v1/',
+    'qwqer_api' => 'https://api.qwqer.lv/v1/',
+    'qwqer_test_api' => 'https://qwqer.hostcream.eu/api/v1/',
 
     /*
     |--------------------------------------------------------------------------
@@ -369,7 +370,7 @@ return [
 
 		[
             'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC','APP_UNINSTALLED'),
-            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://shpf.qwqer.lv/webhook/app-uninstalled')
+            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', url('webhook/app-uninstalled'))
         ]
     ],
 
