@@ -14,61 +14,68 @@
           integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/polaris.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css?ver=2') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css?ver=3') }}" />
 
-    <div id="header" class="Polaris-Modal-Section">
-        <div class="Polaris-Tabs__Wrapper">
-            <div class="Polaris-Tabs__ButtonWrapper">
-                <ul class="Polaris-Tabs" data-tabs-focus-catchment="true" role="tablist">
+    <div id="header">
+        <div class="Polaris-Tabs__ButtonWrapper">
+            <ul class="Polaris-Tabs" data-tabs-focus-catchment="true" role="tablist">
 
-                    <li class="Polaris-Tabs__TabContainer" role="presentation">
-                        <a id="settings-tab" href="#1a" data-toggle="tab" data-id="1a" class="Polaris-Tabs__Tab Polaris-Tabs__Tab--active" style="text-decoration: none">
-                            <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
-                                <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
-                                    Settings
-                                </span>
+                <li class="Polaris-Tabs__TabContainer" role="presentation">
+                    <a id="settings-tab" href="#1a" data-toggle="tab" data-id="1a" class="Polaris-Tabs__Tab Polaris-Tabs__Tab--active" style="text-decoration: none">
+                        <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
+                            <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
+                                Settings
                             </span>
-                        </a>
-                    </li>
+                        </span>
+                    </a>
+                </li>
 
-                    <li class="Polaris-Tabs__TabContainer" role="presentation">
-                        <a id="orders-tab" href="#2a" data-toggle="tab" data-id="2a" class="Polaris-Tabs__Tab" style="text-decoration: none">
-                            <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
-                                <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
-                                    Orders
-                                </span>
+                <li class="Polaris-Tabs__TabContainer" role="presentation">
+                    <a id="orders-tab" href="#2a" data-toggle="tab" data-id="2a" class="Polaris-Tabs__Tab" style="text-decoration: none">
+                        <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
+                            <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
+                                Orders
                             </span>
-                        </a>
-                    </li>
+                        </span>
+                    </a>
+                </li>
 
-                </ul>
-            </div>
+            </ul>
         </div>
 
         <div id="primary_actions" class="Polaris-Page-Header__RightAlign" style="display: none;">
+            <div class="Polaris-ActionMenu">
+                <div class="Polaris-ActionMenu-Actions__ActionsLayoutOuter">
+                    <div class="Polaris-ActionMenu-Actions__ActionsLayout">
+                        <div>
+                            <div class="Polaris-ActionMenu-SecondaryAction">
+                                <button id="update_btn" type="button"
+                                    class="Polaris-Button Polaris-Button--pressable Polaris-Button--variantSecondary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter">
+                                    <span class="Polaris-Icon">
+                                        <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.1389 3.88962L13.2089 3.99961C13.236 3.99964 13.2629 3.99416 13.2878 3.98349C13.3127 3.97282 13.3353 3.95724 13.354 3.93759C13.3727 3.91795 13.3872 3.89467 13.3966 3.86923C13.4061 3.8438 13.4103 3.81674 13.4089 3.78964L13.1489 0.729586C13.1473 0.692028 13.1346 0.655897 13.1123 0.625582C13.0901 0.595266 13.0593 0.572145 13.024 0.559298C12.9887 0.546451 12.9504 0.544362 12.9138 0.553316C12.8773 0.562271 12.8443 0.581855 12.8189 0.609591L10.0089 3.60959C9.99411 3.63587 9.98571 3.66538 9.98452 3.69553C9.98333 3.72567 9.9894 3.75569 10.0021 3.78305C10.0148 3.81042 10.0338 3.83433 10.0576 3.85288C10.0814 3.87142 10.1093 3.88398 10.1389 3.88962Z" fill="#586DB3"/>
+                                            <path d="M11.7787 12.1899C12.9804 11.0858 13.7585 9.59663 13.9788 7.97977L13.1688 7.8798C12.9999 9.13756 12.4443 10.3117 11.5787 11.2398C10.7442 12.1406 9.66146 12.7739 8.46716 13.0595C7.27286 13.345 6.02068 13.27 4.86896 12.844C3.71724 12.4181 2.71768 11.6602 1.99658 10.6663C1.27549 9.67236 0.865265 8.48697 0.817749 7.25992C0.770233 6.03288 1.08754 4.81935 1.72961 3.77262C2.37169 2.72589 3.30966 1.89305 4.42499 1.37931C5.54032 0.865567 6.78292 0.693934 7.99573 0.886268C9.20853 1.0786 10.3371 1.62627 11.2388 2.45988L11.7888 1.86979C10.7873 0.951742 9.5403 0.344958 8.19989 0.12345C6.85948 -0.0980571 5.48357 0.0753097 4.23999 0.622352C2.99641 1.16939 1.93889 2.06651 1.19641 3.20426C0.453932 4.34201 0.0585938 5.67124 0.0585938 7.02982C0.0585938 8.38841 0.453932 9.71763 1.19641 10.8554C1.93889 11.9931 2.99641 12.8903 4.23999 13.4373C5.48357 13.9843 6.85948 14.1577 8.19989 13.9362C9.5403 13.7147 10.7873 13.1079 11.7888 12.1899H11.7787Z" fill="#586DB3"/>
+                                            <path d="M13.618 7.53963C13.5654 7.53264 13.5119 7.53614 13.4607 7.55001C13.4095 7.56387 13.3616 7.58787 13.3197 7.62044C13.2778 7.65301 13.2428 7.69361 13.2168 7.73983C13.1908 7.78605 13.1741 7.83691 13.168 7.88961L13.978 7.98958C13.9892 7.8823 13.9578 7.77499 13.8904 7.69075C13.823 7.60652 13.7251 7.5522 13.618 7.53963Z" fill="#586DB3"/>
+                                        </svg>
+                                    </span>
+                                    <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium">
+                                        Update Orders
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="Polaris-Page-Header__PrimaryActionWrapper">
-
-                <button id="update_btn" type="button"
-                        class="Polaris-Button Polaris-Button--pressable Polaris-Button--variantSecondary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter Polaris-Button--iconWithText">
-                    <span class="Polaris-Button__Icon">
-                        <span class="Polaris-Icon">
-                            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.1389 3.88962L13.2089 3.99961C13.236 3.99964 13.2629 3.99416 13.2878 3.98349C13.3127 3.97282 13.3353 3.95724 13.354 3.93759C13.3727 3.91795 13.3872 3.89467 13.3966 3.86923C13.4061 3.8438 13.4103 3.81674 13.4089 3.78964L13.1489 0.729586C13.1473 0.692028 13.1346 0.655897 13.1123 0.625582C13.0901 0.595266 13.0593 0.572145 13.024 0.559298C12.9887 0.546451 12.9504 0.544362 12.9138 0.553316C12.8773 0.562271 12.8443 0.581855 12.8189 0.609591L10.0089 3.60959C9.99411 3.63587 9.98571 3.66538 9.98452 3.69553C9.98333 3.72567 9.9894 3.75569 10.0021 3.78305C10.0148 3.81042 10.0338 3.83433 10.0576 3.85288C10.0814 3.87142 10.1093 3.88398 10.1389 3.88962Z" fill="#586DB3"/>
-                                <path d="M11.7787 12.1899C12.9804 11.0858 13.7585 9.59663 13.9788 7.97977L13.1688 7.8798C12.9999 9.13756 12.4443 10.3117 11.5787 11.2398C10.7442 12.1406 9.66146 12.7739 8.46716 13.0595C7.27286 13.345 6.02068 13.27 4.86896 12.844C3.71724 12.4181 2.71768 11.6602 1.99658 10.6663C1.27549 9.67236 0.865265 8.48697 0.817749 7.25992C0.770233 6.03288 1.08754 4.81935 1.72961 3.77262C2.37169 2.72589 3.30966 1.89305 4.42499 1.37931C5.54032 0.865567 6.78292 0.693934 7.99573 0.886268C9.20853 1.0786 10.3371 1.62627 11.2388 2.45988L11.7888 1.86979C10.7873 0.951742 9.5403 0.344958 8.19989 0.12345C6.85948 -0.0980571 5.48357 0.0753097 4.23999 0.622352C2.99641 1.16939 1.93889 2.06651 1.19641 3.20426C0.453932 4.34201 0.0585938 5.67124 0.0585938 7.02982C0.0585938 8.38841 0.453932 9.71763 1.19641 10.8554C1.93889 11.9931 2.99641 12.8903 4.23999 13.4373C5.48357 13.9843 6.85948 14.1577 8.19989 13.9362C9.5403 13.7147 10.7873 13.1079 11.7888 12.1899H11.7787Z" fill="#586DB3"/>
-                                <path d="M13.618 7.53963C13.5654 7.53264 13.5119 7.53614 13.4607 7.55001C13.4095 7.56387 13.3616 7.58787 13.3197 7.62044C13.2778 7.65301 13.2428 7.69361 13.2168 7.73983C13.1908 7.78605 13.1741 7.83691 13.168 7.88961L13.978 7.98958C13.9892 7.8823 13.9578 7.77499 13.8904 7.69075C13.823 7.60652 13.7251 7.5522 13.618 7.53963Z" fill="#586DB3"/>
-                            </svg>
+                <div class="Polaris-Box">
+                    <button id="process-selected-button" type="button"
+                            class="Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter">
+                        <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium">
+                            Process
                         </span>
-                    </span>
-                    <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium">
-                        Update Orders
-                    </span>
-                </button>
-
-                <button id="process-selected-button" type="button"
-                        class="Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter">
-                    <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium">Process</span>
-                </button>
-
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -165,6 +172,7 @@
                         url: "{{ url('order-details') }}",
                         type: 'GET'
                     },
+                    autoWidth: false,
                     columns: [
                         {data: 'checkboxes', name: 'checkboxes', orderable: false, searchable: false},
                         {data: 'id', name: 'id', visible: false},
@@ -173,7 +181,7 @@
                         {data: 'delivery_type', name: 'delivery_type'},
                         {data: 'shipping_address', name: 'shipping_address'},
                         {data: 'status', name: 'status'},
-                        {data: 'actions', name: 'actions', orderable: false, searchable: false}
+                        {data: 'actions', name: 'actions', orderable: false, searchable: false, width: '5%'}
                     ],
                     searchDelay: 1000,
                     order: [2, 'desc'],

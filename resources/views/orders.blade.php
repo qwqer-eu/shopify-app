@@ -5,16 +5,14 @@
                 <table id="order" class="Polaris-DataTable__Table">
                     <thead>
                     <tr>
-                        <th id="checkbox_column">
-                            <input type="checkbox" id="all_orders" name="order_all" value="">
-                        </th>
+                        <th><input type="checkbox" id="all_orders" name="order_all" value=""></th>
                         <th>ID</th>
                         <th>Order ID</th>
                         <th>Date</th>
                         <th>Delivery type</th>
                         <th>Shipping Address</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                 </table>

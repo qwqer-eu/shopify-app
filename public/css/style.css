@@ -4,6 +4,12 @@
     }
 }
 
+.Polaris-Icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .selectize-input {
     border-radius: var(--p-border-radius-200);
     caret-color: rgba(48, 48, 48, 1);
@@ -19,6 +25,7 @@
     align-items: center;
     padding-top: var(--p-space-200);
     padding-bottom: var(--p-space-200);
+    row-gap: var(--p-space-400);
 }
 
 @media (min-width: 30.625em) {
@@ -26,6 +33,11 @@
         margin-left: var(--p-space-400);
         margin-right: var(--p-space-400);
     }
+}
+
+#process-selected-button {
+    min-height: var(--p-height-700);
+    min-width: var(--p-width-700);
 }
 
 #order {
@@ -79,7 +91,7 @@
     margin-right: var(--p-space-200);
 }
 
-#checkbox_column {
+#order thead tr th {
     padding: 8px 10px;
 }
 
@@ -108,11 +120,6 @@
     background-color: rgba(255, 180, 72, 1);
     border-radius: var(--p-border-radius-200);
     color: rgba(48, 48, 48, 1);
-}
-
-.order-actions {
-    display: flex;
-    justify-content: right;
 }
 
 .process-order-button {
