@@ -30,7 +30,7 @@ class Order_Meta extends Model
         if ($this->date instanceof Carbon) {
             return $this->date
                 ->timezone('Europe/Riga')
-                ->format('M d \a\t g:i a');
+                ->format('M d \a\t H:i');
         }
         return '';
     }
