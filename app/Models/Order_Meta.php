@@ -44,6 +44,7 @@ class Order_Meta extends Model
             default => $this->delivery_type,
         };
     }
+
     public function getFormattedStatusAttribute(): string
     {
         return match ($this->status) {
