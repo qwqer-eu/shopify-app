@@ -21,17 +21,7 @@
             <ul class="Polaris-Tabs" data-tabs-focus-catchment="true" role="tablist">
 
                 <li class="Polaris-Tabs__TabContainer" role="presentation">
-                    <a id="settings-tab" href="#1a" data-toggle="tab" data-id="1a" class="Polaris-Tabs__Tab Polaris-Tabs__Tab--active" style="text-decoration: none">
-                        <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
-                            <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
-                                Settings
-                            </span>
-                        </span>
-                    </a>
-                </li>
-
-                <li class="Polaris-Tabs__TabContainer" role="presentation">
-                    <a id="orders-tab" href="#2a" data-toggle="tab" data-id="2a" class="Polaris-Tabs__Tab" style="text-decoration: none">
+                    <a id="orders-tab" href="#1a" data-toggle="tab" data-id="1a" class="Polaris-Tabs__Tab Polaris-Tabs__Tab--active" style="text-decoration: none">
                         <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
                             <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
                                 Orders
@@ -40,10 +30,20 @@
                     </a>
                 </li>
 
+                <li class="Polaris-Tabs__TabContainer" role="presentation">
+                    <a id="settings-tab" href="#2a" data-toggle="tab" data-id="2a" class="Polaris-Tabs__Tab" style="text-decoration: none">
+                        <span class="Polaris-InlineStack" style="--pc-inline-stack-align: center; --pc-inline-stack-block-align: center; --pc-inline-stack-wrap: nowrap; --pc-inline-stack-gap-xs: var(--p-space-200); --pc-inline-stack-flex-direction-xs: row;">
+                            <span class="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium" style="font-size:var(--p-text-heading-md-font-size); padding: var(--p-space-150) var(--p-space-300);">
+                                Settings
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
             </ul>
         </div>
 
-        <div id="primary_actions" class="Polaris-Page-Header__RightAlign" style="display: none;">
+        <div id="primary_actions" class="Polaris-Page-Header__RightAlign">
             <div class="Polaris-ActionMenu">
                 <div class="Polaris-ActionMenu-Actions__ActionsLayoutOuter">
                     <div class="Polaris-ActionMenu-Actions__ActionsLayout">
@@ -82,11 +82,11 @@
 
     <div class="tab-content clearfix">
         <div class="tab-pane active" id="1a">
-            @include('qwqer_settings')
+            @include('orders')
         </div>
 
-        <div class="tab-pane" id="2a">
-            @include('orders')
+        <div class="tab-pane clearfix" id="2a">
+            @include('qwqer_settings')
         </div>
     </div>
 @endsection
